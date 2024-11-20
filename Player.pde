@@ -16,6 +16,8 @@ class Player {
 
   void move() {
     if (ticks % 10 == 0) {
+      int oldX = x;
+      int oldY = y;
       switch(direction) {
       case LEFT:
         x--;
@@ -32,6 +34,10 @@ class Player {
       }
       x = (x+WIDTH) % WIDTH;
       y = (y+HEIGHT) % HEIGHT;
+      if (walls[x][y]){
+        x = oldX;
+        y = oldY;
+      }
     }
   }
 }
