@@ -3,15 +3,20 @@ final int HEIGHT = 9;
 final int FIELD_SIZE = 20;
 
 boolean[][] walls = new boolean[WIDTH][HEIGHT];
+boolean[][] points = new boolean[WIDTH][HEIGHT];
+
 
 int timer = 0;
-final int TICK = 2;
+final int TICK = 4;
 int ticks = 0;
 
 Player p = new Player(10, 5);
 
+void settings(){
+  size(WIDTH*FIELD_SIZE, HEIGHT*FIELD_SIZE);
+}
+
 void setup(){
-  size(400, 200);
   for(int i = 0; i < HEIGHT; i++) {
     walls[0][i] = true;
     walls[WIDTH-1][i] = true;
