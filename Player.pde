@@ -52,6 +52,7 @@ class Player {
         moveX = 0;
         moveY = 0;
       }
+      points[oldX][oldY] = false;
     }
   }
 }

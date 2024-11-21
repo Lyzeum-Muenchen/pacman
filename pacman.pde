@@ -27,6 +27,12 @@ void setup(){
   }
   walls[0][HEIGHT/2] = false;
   walls[WIDTH-1][HEIGHT/2] = false;
+  
+  for (int i = 0; i < WIDTH; i ++){
+    for (int j = 0; j < HEIGHT; j++){
+      points[i][j] = true;
+    }
+  }
 }
 
 void draw() {
@@ -34,8 +40,12 @@ void draw() {
   p.draw();
   
   noStroke();
+  
   for (int i = 0; i < WIDTH; i++){
     for (int j = 0; j < HEIGHT; j++){
+      fill(255,255,255);
+      if (points[i][j])
+        ellipse((i+0.5)*FIELD_SIZE,(j+0.5)*FIELD_SIZE,4,4);
       fill(0,0,255);
       if (walls[i][j])
         rect(i*FIELD_SIZE, j*FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
