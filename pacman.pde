@@ -1,6 +1,6 @@
 final int WIDTH = 20;
 final int HEIGHT = 9;
-final int FIELD_SIZE = 20;
+final int FIELD_SIZE = 40;
 
 boolean[][] walls = new boolean[WIDTH][HEIGHT];
 
@@ -10,8 +10,12 @@ int ticks = 0;
 
 Player p = new Player(10, 5);
 
+void settings() {
+  size(WIDTH * FIELD_SIZE, HEIGHT * FIELD_SIZE);
+}
+
+
 void setup(){
-  size(400, 200);
   for(int i = 0; i < HEIGHT; i++) {
     walls[0][i] = true;
     walls[WIDTH-1][i] = true;
@@ -47,8 +51,31 @@ void draw() {
 }
 
 void keyPressed(){
+   println(keyCode);
   if (keyCode == UP || keyCode == DOWN || keyCode == RIGHT || keyCode == LEFT) {
-    println(keyCode);
     p.direction = keyCode; 
-  } 
+  } else {
+    switch(keyCode) {
+      case 'w':
+      case 'W':
+        p.direction = UP;
+        break;
+      case 'a':
+      case 'A':
+        p.direction = LEFT;
+        break;
+      case 's':
+      case 'S':
+        p.direction = DOWN;
+        break;
+      case 'd':
+      case 'D':
+        p.direction = RIGHT;
+        break;
+    }
+  }
+  // w87
+  // a 65
+  // s 83
+  // d 68
 }
