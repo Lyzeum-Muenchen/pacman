@@ -1,8 +1,10 @@
-final int WIDTH = 20;
-final int HEIGHT = 9;
-final int FIELD_SIZE = 40;
+final int WIDTH = 21;
+final int HEIGHT = 21;
+final int FIELD_SIZE = 30;
 
 boolean[][] walls = new boolean[WIDTH][HEIGHT];
+boolean[][] points = new boolean[WIDTH][HEIGHT];
+int numberOfPoints;
 
 int timer = 0;
 final int TICK = 2;
@@ -16,30 +18,63 @@ void settings() {
 
 
 void setup(){
-  for(int i = 0; i < HEIGHT; i++) {
-    walls[0][i] = true;
-    walls[WIDTH-1][i] = true;
+  generateBox(0,0,WIDTH,HEIGHT);
+  generateBox(WIDTH/2-2, HEIGHT/2-1, 5, 3);
+  
+  for (int i = 0; i < 6; i++){
+    generateBox(2 + i*3, 2, 2, 2);
+    generateBox(2 + i*3, HEIGHT-4, 2, 2);
+    generateBox(2, 2 + i*3, 2, 2);
+    generateBox(WIDTH - 4, 2 + i*3, 2, 2);
   }
-  for (int i = 0; i < WIDTH; i++){
-    walls[i][0] = true;
-    walls[i][HEIGHT-1] = true;
-  }
+  generateBox(5, 8, 2, 2);
+  generateBox(5, 11, 2, 2);
+  generateBox(WIDTH-7, 8, 2, 2);
+  generateBox(WIDTH-7, 11, 2, 2);
+  
+  generateBox(WIDTH/2, 5, 1, 3);
+  generateBox(WIDTH/2, HEIGHT-8, 1, 3);
+  generateBox(WIDTH/2-2, 6, 1, 3);
+  generateBox(WIDTH/2+2, 6, 1, 3);
+  generateBox(WIDTH/2-2, HEIGHT-9, 1, 3);
+  generateBox(WIDTH/2+2, HEIGHT-9, 1, 3);
+  
   walls[0][HEIGHT/2] = false;
   walls[WIDTH-1][HEIGHT/2] = false;
+  
+  for (int i = 0; i < WIDTH; i++) {
+    for (int j = 0; j < HEIGHT; j++) {
+      if (! walls[i][j]) numberOfPoints ++;
+      points[i][j] = true;
+    }
+  }
+  for (int i = 0; i < 3; i++){
+    points[WIDTH/2-1+i][HEIGHT/2] = false;
+    numberOfPoints--;
+  }
 }
 
 void draw() {
   background(0);
-  p.draw();
   
   noStroke();
   for (int i = 0; i < WIDTH; i++){
     for (int j = 0; j < HEIGHT; j++){
+      fill(200,150,75);
+      if(points[i][j])
+        ellipse((i+0.5)*FIELD_SIZE, (j+0.5)*FIELD_SIZE, 0.2 * FIELD_SIZE, 0.2*FIELD_SIZE);
       fill(0,0,255);
       if (walls[i][j])
         rect(i*FIELD_SIZE, j*FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
     }
   }
+  p.draw();
+  
+  fill(255);
+  textAlign(LEFT,TOP);
+  textSize(FIELD_SIZE*0.7);
+  text("Score: " + p.score, FIELD_SIZE*0.15, FIELD_SIZE*0.15);
+
   
   timer ++;
   if (timer >= TICK){
@@ -78,4 +113,16 @@ void keyPressed(){
   // a 65
   // s 83
   // d 68
+}
+
+void generateBox(int x, int y, int w, int h){
+  for(int i = y; i < y+h; i++) {
+    walls[x][i] = true;
+    walls[x+w-1][i] = true;
+  }
+  for (int i = x; i < x+w; i++){
+    walls[i][y] = true;
+    walls[i][y+h-1] = true;
+  }
+  
 }

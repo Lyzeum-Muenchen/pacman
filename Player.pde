@@ -6,6 +6,8 @@ class Player {
   int oldX, oldY; // Startposition
   int moveX, moveY; // Richtungsvektor zwischen Start- und Zielposition
   int oldDirection = RIGHT;
+  
+  int score = 0;
 
   Player(int startX, int startY) {
     x = startX;
@@ -53,6 +55,10 @@ class Player {
         y = oldY;
         moveX = 0;
         moveY = 0;
+      }
+      if(points[oldX][oldY]){
+        points[oldX][oldY] = false;
+        score ++;
       }
     }
   }
