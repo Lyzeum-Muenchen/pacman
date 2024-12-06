@@ -39,6 +39,20 @@ void setup(){
   generateBox(WIDTH/2-2, HEIGHT-9, 1, 3);
   generateBox(WIDTH/2+2, HEIGHT-9, 1, 3);
   
+  walls[6][4] = true;
+  walls[4][6] = true;
+  walls[WIDTH-7][4] = true;
+  walls[WIDTH-5][6] = true;
+  walls[6][HEIGHT-5] = true;
+  walls[4][HEIGHT-7] = true;
+  walls[WIDTH-7][HEIGHT-5] = true;
+  walls[WIDTH-5][HEIGHT-7] = true;
+  
+  walls[7][6] = true;
+  walls[WIDTH-8][6] = true;
+  walls[7][HEIGHT-7] = true;
+  walls[WIDTH-8][HEIGHT-7] = true;
+  
   walls[0][HEIGHT/2] = false;
   walls[WIDTH-1][HEIGHT/2] = false;
   
