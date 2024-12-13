@@ -9,6 +9,7 @@ int numberOfPoints;
 int timer = 0;
 final int TICK = 2;
 int ticks = 0;
+boolean shallReset;
 
 Player p = new Player(1, 1);
 
@@ -58,6 +59,8 @@ void setup(){
   walls[0][HEIGHT/2] = false;
   walls[WIDTH-1][HEIGHT/2] = false;
   
+  walls[WIDTH-1][HEIGHT-2] = false;
+  
   for (int i = 0; i < WIDTH; i++) {
     for (int j = 0; j < HEIGHT; j++) {
       if (! walls[i][j]) numberOfPoints ++;
@@ -104,6 +107,8 @@ void draw() {
   if (timer >= TICK){
     timer = 0;
     ticks ++;
+    if (shallReset) resetAll();
+    shallReset = false;
     
     p.move();   
     for (Ghost ghost : ghosts){
@@ -113,7 +118,6 @@ void draw() {
 }
 
 void keyPressed(){
-   println(keyCode);
   if (keyCode == UP || keyCode == DOWN || keyCode == RIGHT || keyCode == LEFT) {
     p.direction = keyCode; 
   } else {
@@ -152,4 +156,11 @@ void generateBox(int x, int y, int w, int h){
     walls[i][y+h-1] = true;
   }
   
+}
+
+void resetAll(){
+  p.reset();
+  for(Ghost ghost : ghosts){
+    ghost.reset();
+  }
 }

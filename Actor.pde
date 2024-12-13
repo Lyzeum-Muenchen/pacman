@@ -1,5 +1,6 @@
 abstract class Actor {
   int ticksPerMove = 10;
+  int startX, startY;
   int x, y; // Zielposition
   int direction = RIGHT;
   
@@ -9,6 +10,8 @@ abstract class Actor {
   
 
   Actor(int startX, int startY) {
+    this.startX = startX;
+    this.startY = startY;
     x = startX;
     y = startY;
     oldX = x;
@@ -59,5 +62,11 @@ abstract class Actor {
         moveY = 0;
       }
     }
+  }
+  
+  void reset(){
+    oldX = x = startX;
+    oldY = y = startY;
+    direction = RIGHT;
   }
 }

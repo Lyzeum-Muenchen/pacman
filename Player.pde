@@ -13,8 +13,8 @@ class Player extends Actor {
         PI + angle + rotate, 3 * PI - angle + rotate );
   }
   
-  void draw(){
-    super.draw();
+  void move(){
+    super.move();
     if(points[oldX][oldY]){
         points[oldX][oldY] = false;
         score ++;
