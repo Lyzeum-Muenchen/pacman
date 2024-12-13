@@ -10,7 +10,9 @@ int timer = 0;
 final int TICK = 2;
 int ticks = 0;
 
-Player p = new Player(10, 5);
+Player p = new Player(1, 1);
+
+ArrayList<Ghost> ghosts;
 
 void settings() {
   size(WIDTH * FIELD_SIZE, HEIGHT * FIELD_SIZE);
@@ -66,6 +68,9 @@ void setup(){
     points[WIDTH/2-1+i][HEIGHT/2] = false;
     numberOfPoints--;
   }
+  
+  ghosts = new ArrayList();
+  ghosts.add(new Ghost(1,HEIGHT-2));
 }
 
 void draw() {
@@ -82,6 +87,11 @@ void draw() {
         rect(i*FIELD_SIZE, j*FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
     }
   }
+  
+  for (Ghost ghost : ghosts){
+    ghost.draw();
+  }
+  
   p.draw();
   
   fill(255);
@@ -95,7 +105,10 @@ void draw() {
     timer = 0;
     ticks ++;
     
-    p.move();    
+    p.move();   
+    for (Ghost ghost : ghosts){
+      ghost.move();
+    }
   }
 }
 

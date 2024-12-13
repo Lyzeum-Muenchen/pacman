@@ -12,4 +12,12 @@ class Player extends Actor {
     arc((displayX + 0.5) * FIELD_SIZE, (displayY + 0.5) * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, 
         PI + angle + rotate, 3 * PI - angle + rotate );
   }
+  
+  void draw(){
+    super.draw();
+    if(points[oldX][oldY]){
+        points[oldX][oldY] = false;
+        score ++;
+    }
+  }
 }

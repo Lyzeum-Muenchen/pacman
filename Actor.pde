@@ -58,10 +58,6 @@ abstract class Actor {
         moveX = 0;
         moveY = 0;
       }
-      if(points[oldX][oldY]){
-        points[oldX][oldY] = false;
-        score ++;
-      }
     }
   }
 }
