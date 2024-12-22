@@ -1,6 +1,7 @@
 class Player extends Actor {
   
   int score = 0;
+  int[][] distances = new int[WIDTH][HEIGHT];
 
   Player(int startX, int startY){
     super(startX, startY);
@@ -18,6 +19,26 @@ class Player extends Actor {
     if(points[oldX][oldY]){
         points[oldX][oldY] = false;
         score ++;
+    }
+  }
+  
+  void calculateDistances(){
+    for (int i = 0; i < WIDTH; i++){
+      for (int j = 0; j < HEIGHT; j++){
+        distances[i][j] = -1;
+      }
+    }
+    ArrayList<Point> todo = new ArrayList();
+    todo.add(new Point(x, y));
+    
+    while(todo.size() > 0){
+      Point point = todo.remove(0);
+      ArrayList<Point> neighbours = new ArrayList();
+      
+      neighbours.add(new Point ( (point.x+1)%WIDTH, point.y ));
+      neighbours.add(new Point ( point.x, (point.y+1)%HEIGHT));
+      neighbours.add(new Point ( (point.x-1+WIDTH) % WIDTH, y));
+      neighbours.add(new Point ( point.x, (point.y-1+WIDTH) % HEIGHT));
     }
   }
 }

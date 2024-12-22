@@ -27,8 +27,12 @@ class Ghost extends Actor {
     super.move();
     
     int backwards = (direction - LEFT + 2) % 4 + LEFT;
-    if ((p.x == x && p.y == y) || (backwards == p.direction && p.oldX == x && p.oldY == y)){
-      shallReset = true;
+    if (p.x == x && p.y == y){
+      resetIn = p.ticksPerMove;
+      println("Selbes Feld");
+    } else if (backwards == p.direction && p.oldX == x && p.oldY == y) {
+      resetIn = p.ticksPerMove / 4;
+      println("Kollision");
     }
   }
 }

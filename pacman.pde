@@ -9,9 +9,9 @@ int numberOfPoints;
 int timer = 0;
 final int TICK = 2;
 int ticks = 0;
-boolean shallReset;
+int resetIn = -1;
 
-Player p = new Player(1, 1);
+Player p = new Player(4, HEIGHT-2);
 
 ArrayList<Ghost> ghosts;
 
@@ -107,8 +107,11 @@ void draw() {
   if (timer >= TICK){
     timer = 0;
     ticks ++;
-    if (shallReset) resetAll();
-    shallReset = false;
+    if (resetIn >= 0) resetIn --;
+    if (resetIn == 0){
+      resetAll();
+    }
+    
     
     p.move();   
     for (Ghost ghost : ghosts){

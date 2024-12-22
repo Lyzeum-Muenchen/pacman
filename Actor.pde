@@ -67,6 +67,7 @@ abstract class Actor {
   void reset(){
     oldX = x = startX;
     oldY = y = startY;
-    direction = RIGHT;
+    oldDirection = direction = RIGHT;
+    moveX = moveY = 0;
   }
 }
