@@ -13,6 +13,8 @@ class Player extends Actor {
     arc((displayX + 0.5) * FIELD_SIZE, (displayY + 0.5) * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, 
         PI + angle + rotate, 3 * PI - angle + rotate );
         
+    // Nur zur Demonstration
+    // nicht abschreiben
     for (int i = 0; i < WIDTH; i++){
       for (int j = 0; j < HEIGHT; j++){
         fill(255,0,255);

@@ -6,7 +6,7 @@ class Point {
   }
   
   // Gibt Nachbarn eines Punktes zurueck
-  // Nun in richtigen Reihenfolge: LEFT, UP, RIGHT, BOTTOM
+  // Nun in der richtigen Reihenfolge: LEFT, UP, RIGHT, BOTTOM
   ArrayList<Point> getNeighbours(){
   
       ArrayList<Point> neighbours = new ArrayList();
