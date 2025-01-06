@@ -12,10 +12,19 @@ class Player extends Actor {
     float angle = abs(t - 0.5) * 2 * PI / 4; // Werte von 0.0 bis PI / 4
     arc((displayX + 0.5) * FIELD_SIZE, (displayY + 0.5) * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, 
         PI + angle + rotate, 3 * PI - angle + rotate );
+        
+    for (int i = 0; i < WIDTH; i++){
+      for (int j = 0; j < HEIGHT; j++){
+        fill(255,0,255);
+        textAlign(CENTER,CENTER);
+        text(distances[i][j], (i + 0.5) * FIELD_SIZE, (j + 0.5) * FIELD_SIZE);
+      }
+    }
   }
   
   void move(){
     super.move();
+    calculateDistances();
     if(points[oldX][oldY]){
         points[oldX][oldY] = false;
         score ++;
@@ -30,15 +39,19 @@ class Player extends Actor {
     }
     ArrayList<Point> todo = new ArrayList();
     todo.add(new Point(x, y));
+    distances[x][y] = 0;
     
     while(todo.size() > 0){
       Point point = todo.remove(0);
-      ArrayList<Point> neighbours = new ArrayList();
+      ArrayList<Point> neighbours = point.getNeighbours();
       
-      neighbours.add(new Point ( (point.x+1)%WIDTH, point.y ));
-      neighbours.add(new Point ( point.x, (point.y+1)%HEIGHT));
-      neighbours.add(new Point ( (point.x-1+WIDTH) % WIDTH, y));
-      neighbours.add(new Point ( point.x, (point.y-1+WIDTH) % HEIGHT));
+      for (Point n : neighbours){
+        // Feld noch nicht besucht und begehbar
+        if (distances[n.x][n.y] == -1 && ! walls[n.x][n.y]) {
+          todo.add(n);
+          distances[n.x][n.y] = distances[point.x][point.y] + 1;
+        }
+      }
     }
   }
 }

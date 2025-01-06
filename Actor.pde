@@ -70,4 +70,5 @@ abstract class Actor {
     oldDirection = direction = RIGHT;
     moveX = moveY = 0;
   }
+      
 }
