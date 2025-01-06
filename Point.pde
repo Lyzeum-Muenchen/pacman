@@ -5,6 +5,8 @@ class Point {
     y = py;
   }
   
+  // Gibt Nachbarn eines Punktes zurueck
+  // Nun in richtigen Reihenfolge: LEFT, UP, RIGHT, BOTTOM
   ArrayList<Point> getNeighbours(){
   
       ArrayList<Point> neighbours = new ArrayList();

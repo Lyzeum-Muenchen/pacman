@@ -8,20 +8,50 @@ class Ghost extends Actor {
     rect((displayX + 0.1) * FIELD_SIZE, (displayY + 0.1) * FIELD_SIZE, 0.8*FIELD_SIZE, 0.8*FIELD_SIZE);
   }
   
+  int chooseDirection() {
+    // Jeder Richtung wird eine Wahrscheinlichkeit zugeordnet
+    float[] probabilities = new float[4];
+    float sum = 0;
+    ArrayList<Point> neighbours = new Point(x,y).getNeighbours();
+    for (int i = 0; i < 4; i++){
+      Point n = neighbours.get(i);
+      if (p.distances[n.x][n.y] != -1){
+        // Je naeher das Feld an Pacman, desto wahrscheinlicher
+        probabilities[i] = 1. / (p.distances[n.x][n.y]+1);
+        // Die Mathematik muesst ihr nicht genau verstehen
+        // Wichtig ist: Diese Gewichtung sorgt dafuer, dass kuerzere Wege wahrscheinlicher genommen werden
+        // Je hoeher der Exponent, desto besser ist der Geist im Verfolgen
+        // Dies waere eine Moeglichkeit, den Schwierigkeitsgrad anzupassen
+        probabilities[i] = pow(probabilities[i],3);
+        sum += probabilities[i];
+      }
+    }
+    
+    // Geist darf nicht rueckwaerts laufen, es sei denn, er muss
+    int backwards = (direction - LEFT + 2) % 4;
+    if (sum > probabilities[backwards]) {
+      sum -= probabilities[backwards];
+      probabilities[backwards] = 0;
+    }
+        
+    // nur ein bisschen Mathe, um mit den bestimmten Wahrscheinlichkeiten eine Richtung auszuwaehlen
+    // Man kann sich vorstellen: wir teilen ein Intervall auf dem Zahlenstrahl entsprechend der Wahrscheinlichkeiten in Teilstuecke auf
+    //    Dann ziehen wir eine zufaellige Zahl aus diesem Intervall und schauen, in welchem Teilstueck sie liegt
+    float rand = random(sum);
+    float cumulativeSum = 0;
+    int i = 0;
+    while (i < 4 && cumulativeSum < rand){
+      cumulativeSum += probabilities[i];
+      i++;
+    }
+    // Wie wir bereits wissen, ist UP == LEFT + 1, RIGHT == LEFT + 2 und DOWN == LEFT + 3
+    return LEFT + i - 1;
+  }
+  
   void move(){
     if(ticks % ticksPerMove == 0){
-      ArrayList<Integer> possibleDirections = new ArrayList();
-      
-      if (! walls [(x+1)%WIDTH] [y]) possibleDirections.add(RIGHT);
-      if (! walls [x] [(y+1)%HEIGHT]) possibleDirections.add(DOWN);
-      if (! walls [(x-1+WIDTH) % WIDTH] [y]) possibleDirections.add(LEFT);
-      if (! walls [x] [(y-1+WIDTH) % HEIGHT]) possibleDirections.add(UP);
-      
-      int backwards = (direction - LEFT + 2) % 4 + LEFT;
-      if (possibleDirections.size() > 1) possibleDirections.remove((Integer)backwards);
-            
-      int index = floor(random(possibleDirections.size()));
-      direction = possibleDirections.get(index);
+      direction = chooseDirection();
+      print(direction - LEFT);
     }
     
     super.move();
