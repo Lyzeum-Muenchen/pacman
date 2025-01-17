@@ -6,11 +6,11 @@ class Point {
   }
   public ArrayList<Point> getNeighbours(){
     ArrayList<Point> neighbours = new ArrayList();
-      
-    neighbours.add(new Point ( (x+1)%WIDTH, y ));
-    neighbours.add(new Point ( x, (y+1)%HEIGHT));
+    
     neighbours.add(new Point ( (x-1+WIDTH) % WIDTH, y));
     neighbours.add(new Point ( x, (y-1+WIDTH) % HEIGHT));
+    neighbours.add(new Point ( (x+1)%WIDTH, y ));
+    neighbours.add(new Point ( x, (y+1)%HEIGHT));
     
     return neighbours;
   }

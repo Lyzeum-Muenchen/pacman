@@ -74,6 +74,7 @@ void setup(){
   
   ghosts = new ArrayList();
   ghosts.add(new Ghost(1,HEIGHT-2));
+  ghosts.add(new Ghost(1,1));
 }
 
 void draw() {

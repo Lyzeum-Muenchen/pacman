@@ -15,7 +15,7 @@ class Ghost extends Actor {
     for(int i= 0; i< 4; i++){
       Point n = neighbours.get(i);
       if(p.distances[n.x][n.y] != -1){
-        probabilities[i] = pow(1/(p.distances[n.x][n.y] +1), 3);
+        probabilities[i] = exp(- p.distances[n.x][n.y] * 1.0 + 10);
         sum = sum+ probabilities[i]; // sum += probabilities[i]
       }
     }
@@ -24,35 +24,35 @@ class Ghost extends Actor {
       sum -= probabilities[backwards];
       probabilities[backwards] = 0;
     }
-
     
+    float rand = random(sum);
+    
+    float partialSum = 0;
+    for (int newDirection = 0; newDirection < 4; newDirection++){
+      partialSum += probabilities[newDirection];
+      if(rand <= partialSum) return LEFT + newDirection;
+    }
+    return LEFT + 3;
   }
   
   void move(){
     if(ticks % ticksPerMove == 0){
-      ArrayList<Integer> possibleDirections = new ArrayList();
-      
-      if (! walls [(x+1)%WIDTH] [y]) possibleDirections.add(RIGHT);
-      if (! walls [x] [(y+1)%HEIGHT]) possibleDirections.add(DOWN);
-      if (! walls [(x-1+WIDTH) % WIDTH] [y]) possibleDirections.add(LEFT);
-      if (! walls [x] [(y-1+WIDTH) % HEIGHT]) possibleDirections.add(UP);
-      
-      int backwards = (direction - LEFT + 2) % 4 + LEFT;
-      if (possibleDirections.size() > 1) possibleDirections.remove((Integer)backwards);
-            
-      int index = floor(random(possibleDirections.size()));
-      direction = possibleDirections.get(index);
+      direction = chooseDirection();
     }
+    
+    println(direction - LEFT);
     
     super.move();
     
     int backwards = (direction - LEFT + 2) % 4 + LEFT;
-    if (p.x == x && p.y == y){
-      resetIn = p.ticksPerMove;
-      println("Selbes Feld");
-    } else if (backwards == p.direction && p.oldX == x && p.oldY == y) {
-      resetIn = p.ticksPerMove / 4;
-      println("Kollision");
+    if (resetIn < 0){
+      if (p.x == x && p.y == y){
+        resetIn = p.ticksPerMove;
+        println("Selbes Feld");
+      } else if (backwards == p.direction && p.oldX == x && p.oldY == y) {
+        resetIn = p.ticksPerMove / 2;
+        println("Kollision");
+      }
     }
   }
 }
