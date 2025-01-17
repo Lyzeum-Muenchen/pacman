@@ -8,6 +8,26 @@ class Ghost extends Actor {
     rect((displayX + 0.1) * FIELD_SIZE, (displayY + 0.1) * FIELD_SIZE, 0.8*FIELD_SIZE, 0.8*FIELD_SIZE);
   }
   
+  int chooseDirection(){
+    float[] probabilities = new float [4];
+    float sum = 0;
+    ArrayList<Point> neighbours = new Point(x,y).getNeighbours();
+    for(int i= 0; i< 4; i++){
+      Point n = neighbours.get(i);
+      if(p.distances[n.x][n.y] != -1){
+        probabilities[i] = pow(1/(p.distances[n.x][n.y] +1), 3);
+        sum = sum+ probabilities[i]; // sum += probabilities[i]
+      }
+    }
+    int backwards = (direction - LEFT + 2) % 4;
+    if(sum > probabilities[backwards]){
+      sum -= probabilities[backwards];
+      probabilities[backwards] = 0;
+    }
+
+    
+  }
+  
   void move(){
     if(ticks % ticksPerMove == 0){
       ArrayList<Integer> possibleDirections = new ArrayList();

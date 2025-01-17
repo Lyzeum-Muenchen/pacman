@@ -16,6 +16,7 @@ class Player extends Actor {
   
   void move(){
     super.move();
+    calculateDistances();
     if(points[oldX][oldY]){
         points[oldX][oldY] = false;
         score ++;
@@ -33,12 +34,14 @@ class Player extends Actor {
     
     while(todo.size() > 0){
       Point point = todo.remove(0);
-      ArrayList<Point> neighbours = new ArrayList();
+      ArrayList<Point> neighbours = point.getNeighbours();
       
-      neighbours.add(new Point ( (point.x+1)%WIDTH, point.y ));
-      neighbours.add(new Point ( point.x, (point.y+1)%HEIGHT));
-      neighbours.add(new Point ( (point.x-1+WIDTH) % WIDTH, y));
-      neighbours.add(new Point ( point.x, (point.y-1+WIDTH) % HEIGHT));
+      for(Point neighbour: neighbours){
+        if (!walls[neighbour.x][neighbour.y] && distances[neighbour.x][neighbour.y] == -1){
+          distances[neighbour.x][neighbour.y] = distances[point.x][point.y] +1;
+          todo.add(neighbour);
+        }
+      }
     }
   }
 }
