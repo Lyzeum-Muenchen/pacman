@@ -16,6 +16,12 @@ class Player extends Actor {
   
   void move(){
     super.move();
+    if (x == doorX && y == doorY){
+        x = oldX;
+        y = oldY;
+        moveX = 0;
+        moveY = 0;
+    }
     calculateDistances();
     if(points[oldX][oldY]){
         points[oldX][oldY] = false;

@@ -4,7 +4,10 @@ final int FIELD_SIZE = 30;
 
 boolean[][] walls = new boolean[WIDTH][HEIGHT];
 boolean[][] points = new boolean[WIDTH][HEIGHT];
+boolean[][] powerups = new boolean[WIDTH][HEIGHT];
+
 int numberOfPoints;
+int doorX, doorY;
 
 int timer = 0;
 final int TICK = 2;
@@ -72,9 +75,16 @@ void setup(){
     numberOfPoints--;
   }
   
+  doorX = WIDTH / 2;
+  doorY = HEIGHT / 2 - 1;
+  walls[doorX][doorY] = false;
+  points[doorX][doorY] = false;
+  
+  powerups[1][1] = true;
+  
   ghosts = new ArrayList();
-  ghosts.add(new Ghost(1,HEIGHT-2));
-  ghosts.add(new Ghost(1,1));
+  ghosts.add(new Ghost(WIDTH/2-1, HEIGHT/2, color(255,0,0), 5 ));
+  ghosts.add(new Ghost(WIDTH/2+1, HEIGHT/2, color(0, 255, 255), 20));
 }
 
 void draw() {
@@ -83,14 +93,22 @@ void draw() {
   noStroke();
   for (int i = 0; i < WIDTH; i++){
     for (int j = 0; j < HEIGHT; j++){
-      fill(200,150,75);
+      fill(#DEA185);
       if(points[i][j])
         ellipse((i+0.5)*FIELD_SIZE, (j+0.5)*FIELD_SIZE, 0.2 * FIELD_SIZE, 0.2*FIELD_SIZE);
-      fill(0,0,255);
+      if(powerups[i][j])
+        ellipse((i+0.5)*FIELD_SIZE, (j+0.5)*FIELD_SIZE, 0.4 * FIELD_SIZE, 0.4*FIELD_SIZE);
+      fill(#1919A6);
       if (walls[i][j])
         rect(i*FIELD_SIZE, j*FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
     }
   }
+  
+  strokeWeight(FIELD_SIZE * 0.16);
+  stroke(200,150,75);
+  noFill();
+  rect((doorX + 0.08) * FIELD_SIZE, (doorY + 0.08) * FIELD_SIZE, FIELD_SIZE * 0.84, FIELD_SIZE * 0.84);
+  noStroke();
   
   for (Ghost ghost : ghosts){
     ghost.draw();
