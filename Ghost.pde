@@ -3,16 +3,23 @@ class Ghost extends Actor {
   color fillColor;
   int waitingTime;
   int waitingTimer;
+  int powerupTimer;
+  int resetGhostIn = -1;
+  int normalTicksPerMove;
+  float slowdown = 0.5;
 
   Ghost(int startX, int startY, color fillColor, int waitingTime) {
     super(startX, startY);
     this.fillColor = fillColor;
     this.waitingTime = waitingTime;
+    normalTicksPerMove = ticksPerMove;
     reset();
   }
 
   void draw(float displayX, float displayY, float t, float rotate) {
     fill(fillColor);
+    if (powerupTimer > 0) fill(#2121DE);
+
     rect(displayX * FIELD_SIZE, (displayY + 0.5) * FIELD_SIZE, FIELD_SIZE, 0.5 * FIELD_SIZE - FIELD_SIZE / 6);
     arc((displayX + 0.5) * FIELD_SIZE, (displayY + 0.5) * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, 0.9 * PI, 2.1 * PI);
     if (ticks % 8 > 4) {
@@ -39,7 +46,9 @@ class Ghost extends Actor {
     for (int i= 0; i< 4; i++) {
       Point n = neighbours.get(i);
       if (p.distances[n.x][n.y] != -1) {
-        probabilities[i] = exp(- (p.distances[n.x][n.y] - p.distances[x][y]) * 2.0);
+        float sign = -1;
+        if (powerupTimer > 0) sign = +1;
+        probabilities[i] = exp(sign * (p.distances[n.x][n.y] - p.distances[x][y]) * 2.0);
         sum = sum + probabilities[i]; // sum += probabilities[i]
       }
     }
@@ -60,6 +69,13 @@ class Ghost extends Actor {
   }
 
   void move() {
+    if (powerupTimer > 0) powerupTimer --;
+    if (resetGhostIn > 0) resetGhostIn --;
+    else if (resetGhostIn == 0){
+      reset();
+      waitingTimer = 0;
+    }
+
     if (ticks % ticksPerMove == 0) {
       direction = chooseDirection();
       if (waitingTimer > 0) waitingTimer --;
@@ -69,20 +85,32 @@ class Ghost extends Actor {
       super.move();
 
       int backwards = (direction - LEFT + 2) % 4 + LEFT;
-      if (resetIn < 0) {
-        if (p.x == x && p.y == y) {
-          resetIn = p.ticksPerMove;
-          println("Selbes Feld");
-        } else if (backwards == p.direction && p.oldX == x && p.oldY == y) {
-          resetIn = p.ticksPerMove / 2;
-          println("Kollision");
+
+      int collisionIn = -1;
+      if (p.x == x && p.y == y) {
+        collisionIn = p.ticksPerMove;
+        println("Selbes Feld");
+      } else if (backwards == p.direction && p.oldX == x && p.oldY == y) {
+        collisionIn = p.ticksPerMove / 2;
+        println("Kollision");
+      }
+      
+      if (collisionIn != -1){
+        if(powerupTimer == 0 && resetIn < 0){
+          resetIn = collisionIn;
+        } else if (powerupTimer > 0 && resetGhostIn < 0){
+          resetGhostIn = collisionIn;
         }
       }
+      
     }
   }
 
   void reset() {
     super.reset();
     waitingTimer = waitingTime;
+    resetGhostIn = -1;
+    powerupTimer = 0;
+    ticksPerMove = normalTicksPerMove;
   }
 }

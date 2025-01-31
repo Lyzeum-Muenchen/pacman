@@ -27,6 +27,10 @@ class Player extends Actor {
         points[oldX][oldY] = false;
         score ++;
     }
+    if (powerups[oldX][oldY]){
+      powerups[oldX][oldY] = false;
+      activatePowerup();
+    }
   }
   
   void calculateDistances(){

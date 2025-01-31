@@ -14,6 +14,8 @@ final int TICK = 2;
 int ticks = 0;
 int resetIn = -1;
 
+final int POWERUP_DURATION = 300;
+
 Player p = new Player(4, HEIGHT-2);
 
 ArrayList<Ghost> ghosts;
@@ -184,5 +186,13 @@ void resetAll(){
   p.reset();
   for(Ghost ghost : ghosts){
     ghost.reset();
+  }
+}
+
+void activatePowerup(){
+  for (Ghost ghost : ghosts){
+    ghost.direction = (ghost.direction - LEFT + 2) % 4 + LEFT;
+    ghost.powerupTimer = POWERUP_DURATION;
+    ghost.ticksPerMove = int(ghost.ticksPerMove / ghost.slowdown);
   }
 }
