@@ -18,7 +18,7 @@ class Ghost extends Actor {
 
   void draw(float displayX, float displayY, float t, float rotate) {
     fill(fillColor);
-    if (powerupTimer > 0) fill(#2121DE);
+    if (powerupTimer > POWERUP_DURATION / 5 || (powerupTimer > 0 && (ticks / 4) % 2 == 0)) fill(#2121DE);
 
     rect(displayX * FIELD_SIZE, (displayY + 0.5) * FIELD_SIZE, FIELD_SIZE, 0.5 * FIELD_SIZE - FIELD_SIZE / 6);
     arc((displayX + 0.5) * FIELD_SIZE, (displayY + 0.5) * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, 0.9 * PI, 2.1 * PI);
@@ -70,6 +70,9 @@ class Ghost extends Actor {
 
   void move() {
     if (powerupTimer > 0) powerupTimer --;
+    if (powerupTimer == 0) {
+      ticksPerMove = normalTicksPerMove;
+    }
     if (resetGhostIn > 0) resetGhostIn --;
     else if (resetGhostIn == 0){
       reset();
@@ -84,13 +87,11 @@ class Ghost extends Actor {
     if (waitingTimer <= 0) {
       super.move();
 
-      int backwards = (direction - LEFT + 2) % 4 + LEFT;
-
       int collisionIn = -1;
       if (p.x == x && p.y == y) {
         collisionIn = p.ticksPerMove;
         println("Selbes Feld");
-      } else if (backwards == p.direction && p.oldX == x && p.oldY == y) {
+      } else if (oldX == p.x && oldY == p.y && p.oldX == x && p.oldY == y) {
         collisionIn = p.ticksPerMove / 2;
         println("Kollision");
       }
@@ -100,6 +101,8 @@ class Ghost extends Actor {
           resetIn = collisionIn;
         } else if (powerupTimer > 0 && resetGhostIn < 0){
           resetGhostIn = collisionIn;
+          p.score += p.currentPointsPerGhost;
+          p.currentPointsPerGhost *= 2;
         }
       }
       

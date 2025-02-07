@@ -65,7 +65,7 @@ void setup(){
   walls[WIDTH-1][HEIGHT/2] = false;
   
   walls[WIDTH-1][HEIGHT-2] = false;
-  
+    
   for (int i = 0; i < WIDTH; i++) {
     for (int j = 0; j < HEIGHT; j++) {
       if (! walls[i][j]) numberOfPoints ++;
@@ -85,7 +85,7 @@ void setup(){
   powerups[1][1] = true;
   
   ghosts = new ArrayList();
-  ghosts.add(new Ghost(WIDTH/2-1, HEIGHT/2, color(255,0,0), 5 ));
+  ghosts.add(new Ghost(WIDTH/2-1, HEIGHT/2, color(255,0,0), 5));
   ghosts.add(new Ghost(WIDTH/2+1, HEIGHT/2, color(0, 255, 255), 20));
 }
 
@@ -130,6 +130,7 @@ void draw() {
     ticks ++;
     if (resetIn >= 0) resetIn --;
     if (resetIn == 0){
+      p.die();
       resetAll();
     }
     

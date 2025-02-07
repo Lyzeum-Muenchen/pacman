@@ -1,6 +1,9 @@
 class Player extends Actor {
   
+  int lifes = 3;
   int score = 0;
+  int basicPointsPerGhost = 200;
+  int currentPointsPerGhost;
   int[][] distances = new int[WIDTH][HEIGHT];
 
   Player(int startX, int startY){
@@ -12,6 +15,15 @@ class Player extends Actor {
     float angle = abs(t - 0.5) * 2 * PI / 4; // Werte von 0.0 bis PI / 4
     arc((displayX + 0.5) * FIELD_SIZE, (displayY + 0.5) * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, 
         PI + angle + rotate, 3 * PI - angle + rotate );
+        
+    rotate = PI;
+    angle = PI / 8;
+    
+    for(int i = 0; i < lifes - 1; i++){
+      arc((i + 0.5) * FIELD_SIZE, (HEIGHT - 1 + 0.5) * FIELD_SIZE, FIELD_SIZE, FIELD_SIZE, 
+        PI + angle + rotate, 3 * PI - angle + rotate );
+    }
+    
   }
   
   void move(){
@@ -29,6 +41,7 @@ class Player extends Actor {
     }
     if (powerups[oldX][oldY]){
       powerups[oldX][oldY] = false;
+      currentPointsPerGhost = basicPointsPerGhost;
       activatePowerup();
     }
   }
@@ -53,5 +66,13 @@ class Player extends Actor {
         }
       }
     }
+  }
+  
+  void die(){
+    lifes --;
+      if(lifes == 0){
+        score = 0;
+        lifes = 3;
+      }
   }
 }
