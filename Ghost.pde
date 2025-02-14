@@ -7,6 +7,10 @@ class Ghost extends Actor {
   int resetGhostIn = -1;
   int normalTicksPerMove;
   float slowdown = 0.5;
+  
+  Ghost(Point start, color fillColor, int waitingTime){
+    this(start.x, start.y, fillColor, waitingTime);
+  }
 
   Ghost(int startX, int startY, color fillColor, int waitingTime) {
     super(startX, startY);
