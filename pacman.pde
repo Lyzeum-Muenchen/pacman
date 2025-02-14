@@ -6,7 +6,8 @@ boolean[][] walls = new boolean[WIDTH][HEIGHT];
 boolean[][] points = new boolean[WIDTH][HEIGHT];
 boolean[][] powerups = new boolean[WIDTH][HEIGHT];
 
-int numberOfPoints;
+int pointsLeft;
+boolean win;
 int doorX, doorY;
 
 int timer = 0;
@@ -16,8 +17,9 @@ int resetIn = -1;
 
 final int POWERUP_DURATION = 300;
 
-Player p;
-Map map = new Map();
+Player p = new Player(0,0);
+Level[] levels;
+int level = 0;
 
 ArrayList<Ghost> ghosts;
 
@@ -27,26 +29,13 @@ void settings() {
 
 
 void setup(){
-  WIDTH = map.WIDTH;
-  HEIGHT = map.HEIGHT;
-  windowResize(WIDTH * FIELD_SIZE, HEIGHT * FIELD_SIZE);
-  ghosts = new ArrayList();
-  ghosts.add(new Ghost(map.ghostStarts.get(0), color(255,0,0), 5));
-  ghosts.add(new Ghost(map.ghostStarts.get(1), color(0,255,255), 20));
-  doorX = map.door.x;
-  doorY = map.door.y;
-  p = new Player(map.playerStart.x, map.playerStart.y);
-  walls = new boolean[WIDTH][HEIGHT];
-  points = new boolean[WIDTH][HEIGHT];
-  powerups = new boolean[WIDTH][HEIGHT];
-  for (int i = 0; i < WIDTH; i++){
-    for (int j = 0; j < HEIGHT; j++){
-      walls[i][j] = map.walls[i][j];
-      points[i][j] = map.points[i][j];
-      powerups[i][j] = map.powerups[i][j];
-    }
+  String[] lines = loadStrings("levels.txt");
+  levels = new Level[int(lines[0])];
+  for (int i = 0; i < levels.length; i++){
+    String[] info = lines[i+1].split(" ");
+    levels[i] = new Level(new Map(info[0]), int(info[1]), float(info[2]));
   }
-  
+  levels[0].start();
 }
 
 void draw() {
@@ -90,8 +79,13 @@ void draw() {
     ticks ++;
     if (resetIn >= 0) resetIn --;
     if (resetIn == 0){
-      p.die();
-      resetAll();
+      if (win){
+        level ++;
+        levels[level].start();
+      } else {
+        p.die();
+        resetAll();
+      }
     }
     
     

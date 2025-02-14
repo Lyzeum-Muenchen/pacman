@@ -1,0 +1,22 @@
+21 21
+XXXXXXXXXXXXXXXXXXXXX
+X*                 *X
+X XX XX XX XX XX XX X
+X XX XX XX XX XX XX X
+X     X       X     X
+X XX      X      XX X
+X XXX  XX X XX  XXX X
+X       X X X       X
+X XX XX X 1 X XX XX X
+X XX XX XX-XX XX XX X
+        X234X        
+X XX XX XXXXX XX XX X
+X XX XX X * X XX XX X
+X       X X X       X
+X XXX  XX X XX  XXX X
+X XX      X      XX X
+X     X       X     X
+X XX XX XX XX XX XX X
+X XX XX XX XX XX XX X
+X*P                *X
+XXXXXXXXXXXXXXXXXXXXX

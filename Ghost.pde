@@ -7,15 +7,17 @@ class Ghost extends Actor {
   int resetGhostIn = -1;
   int normalTicksPerMove;
   float slowdown = 0.5;
+  float difficulty;
   
-  Ghost(Point start, color fillColor, int waitingTime){
-    this(start.x, start.y, fillColor, waitingTime);
+  Ghost(Point start, color fillColor, int waitingTime, float difficulty){
+    this(start.x, start.y, fillColor, waitingTime, difficulty);
   }
 
-  Ghost(int startX, int startY, color fillColor, int waitingTime) {
+  Ghost(int startX, int startY, color fillColor, int waitingTime, float difficulty) {
     super(startX, startY);
     this.fillColor = fillColor;
     this.waitingTime = waitingTime;
+    this.difficulty = difficulty;
     normalTicksPerMove = ticksPerMove;
     reset();
   }
@@ -52,7 +54,7 @@ class Ghost extends Actor {
       if (p.distances[n.x][n.y] != -1) {
         float sign = -1;
         if (powerupTimer > 0) sign = +1;
-        probabilities[i] = exp(sign * (p.distances[n.x][n.y] - p.distances[x][y]) * 2.0);
+        probabilities[i] = exp(sign * (p.distances[n.x][n.y] - p.distances[x][y]) * difficulty);
         sum = sum + probabilities[i]; // sum += probabilities[i]
       }
     }

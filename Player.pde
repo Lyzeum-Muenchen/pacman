@@ -38,6 +38,11 @@ class Player extends Actor {
     if(points[oldX][oldY]){
         points[oldX][oldY] = false;
         score ++;
+        pointsLeft --;
+        if (pointsLeft == 0 && (resetIn == -1 || resetIn >= p.ticksPerMove)){
+          resetIn = p.ticksPerMove;
+          win = true;
+        }
     }
     if (powerups[oldX][oldY]){
       powerups[oldX][oldY] = false;
@@ -73,6 +78,7 @@ class Player extends Actor {
       if(lifes == 0){
         score = 0;
         lifes = 3;
+        levels[0].start();
       }
   }
 }
