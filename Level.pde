@@ -27,6 +27,8 @@ class Level{
     WIDTH = map.WIDTH;
     HEIGHT = map.HEIGHT;
     windowResize(WIDTH * FIELD_SIZE, HEIGHT * FIELD_SIZE);
+    
+    numberOfPoints = map.numberOfPoints;
         
     walls = new boolean[WIDTH][HEIGHT];
     points = new boolean[WIDTH][HEIGHT];

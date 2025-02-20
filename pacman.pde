@@ -82,7 +82,6 @@ void draw() {
       resetAll();
     }
     
-    
     p.move();   
     for (Ghost ghost : ghosts){
       ghost.move();

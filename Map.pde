@@ -42,6 +42,7 @@ class Map {
           powerups[i][j] = true;
         case ' ':
           points[i][j] = true;
+          numberOfPoints++;
           break;
         }
       }

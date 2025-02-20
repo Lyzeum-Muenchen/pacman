@@ -1,1 +1,2 @@
+maps/testmap.txt 1.0 5 - 0 - 0 - 0
 maps/map0.txt 1.0 5 1.0 15 1.0 25 1.0 35
