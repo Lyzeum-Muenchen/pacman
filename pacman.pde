@@ -20,13 +20,21 @@ Player p = new Player(4, HEIGHT-2);
 
 ArrayList<Ghost> ghosts = new ArrayList();
 
+Level[] levels;
+int level = 0;
+
 void settings() {
   size(WIDTH * FIELD_SIZE, HEIGHT * FIELD_SIZE);
 }
 
 
 void setup(){
-  new Level(new Map("maps/map0.txt")).start();
+  String[] levelDescriptions = loadStrings("levels.txt");
+  levels = new Level[levelDescriptions.length];
+  for (int i = 0; i < levels.length; i++){
+    levels[i] = new Level(levelDescriptions[i]);
+  }
+  levels[0].start();  
 }
 
 void draw() {
