@@ -1,9 +1,25 @@
 class Level{
-  
   Map map;
+  ArrayList<Ghost> levelGhosts = new ArrayList();
+  final color[] colors = {#FF0000, #FFB8FF, #00FFFF, #FFB852};
   
   Level(Map map){
     this.map = map;
+  }
+  
+  Level(String description){
+    String[] parts = description.split(" ");
+    map = new Map(parts[0]);
+    for(int i= 0; i < (parts.length - 1)/2;i++ ){
+      if(!parts[2*i+1].equals("-")){
+        float difficulty = float(parts[2*i+1]);
+        int waitingTime = int(parts[2*i+2]);
+        levelGhosts.add(
+          new Ghost(map.ghostStarts[i].x, map.ghostStarts[i].y, colors[i], waitingTime, difficulty)
+        );
+      }
+    }
+    
   }
   
   void start(){
@@ -21,6 +37,12 @@ class Level{
     
     doorX = map.doorX;
     doorY = map.doorY;
+    
+    
+    ghosts = levelGhosts;
+    for(Ghost ghost: levelGhosts){
+      ghost.reset();
+    }
     
     p.startX = map.playerX;
     p.startY = map.playerY;
