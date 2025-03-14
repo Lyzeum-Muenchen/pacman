@@ -23,15 +23,24 @@ class Level{
   }
   
   void start(){
+    WIDTH = map.WIDTH;
+    HEIGHT = map.HEIGHT;
+    
+    windowResize(WIDTH * FIELD_SIZE, HEIGHT * FIELD_SIZE);
+    
+    numberOfPoints = map.numberOfPoints;
+    
     walls = new boolean[WIDTH][HEIGHT];
     points = new boolean[WIDTH][HEIGHT];
     powerups = new boolean[WIDTH][HEIGHT];
+    glitches = new boolean[WIDTH][HEIGHT];
     
     for (int i = 0; i < WIDTH; i++) {
       for (int j = 0; j < HEIGHT; j++) {
         walls[i][j] = map.walls[i][j];
         points[i][j] = map.points[i][j];
         powerups[i][j] = map.powerups[i][j];
+        glitches[i][j] = map.glitches[i][j];
       }
     }
     

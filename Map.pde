@@ -3,6 +3,7 @@ class Map {
   boolean[][] walls;
   boolean[][] points;
   boolean[][] powerups;
+  boolean[][] glitches;
   int numberOfPoints;
   int doorX, doorY;
   int playerX, playerY;
@@ -17,6 +18,7 @@ class Map {
     walls = new boolean[WIDTH][HEIGHT];
     points = new boolean[WIDTH][HEIGHT];
     powerups = new boolean[WIDTH][HEIGHT];
+    glitches = new boolean[WIDTH][HEIGHT];
 
     for (int i = 0; i < WIDTH; i++) {
       for (int j = 0; j < HEIGHT; j++) {
@@ -38,10 +40,15 @@ class Map {
         case '4':
           ghostStarts[lines[j+1].charAt(i) - '1'] = new Point(i, j);
           break;
+        case 'G':
+          glitches[i][j] = true;
+          numberOfPoints ++;
+          break;
         case '*':
           powerups[i][j] = true;
         case ' ':
           points[i][j] = true;
+          numberOfPoints ++;
           break;
         }
       }

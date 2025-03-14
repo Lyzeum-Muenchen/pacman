@@ -38,6 +38,11 @@ class Player extends Actor {
     if(points[oldX][oldY]){
         points[oldX][oldY] = false;
         score ++;
+        numberOfPoints --;
+        if (numberOfPoints == 0){
+          level ++;
+          levels.get(level).start();
+        }
     }
     if (powerups[oldX][oldY]){
       powerups[oldX][oldY] = false;
@@ -73,6 +78,8 @@ class Player extends Actor {
       if(lifes == 0){
         score = 0;
         lifes = 3;
+        level = 0;
+        levels.get(level).start();
       }
   }
 }

@@ -5,6 +5,7 @@ final int FIELD_SIZE = 30;
 boolean[][] walls;
 boolean[][] points;
 boolean[][] powerups;
+boolean[][] glitches;
 
 int numberOfPoints;
 int doorX, doorY;
@@ -40,6 +41,8 @@ void draw() {
   background(0);
   
   noStroke();
+  
+  randomSeed(ticks/10);
   for (int i = 0; i < WIDTH; i++){
     for (int j = 0; j < HEIGHT; j++){
       fill(#DEA185);
@@ -50,6 +53,14 @@ void draw() {
       fill(#1919A6);
       if (walls[i][j])
         rect(i*FIELD_SIZE, j*FIELD_SIZE, FIELD_SIZE, FIELD_SIZE);
+      if (glitches[i][j]){
+        colorMode(HSB,360,100,100);
+        textAlign(CENTER, CENTER);
+        textSize(FIELD_SIZE*0.9);
+        fill((random(0,240)+300)%360, 99, 70);
+        text((char) int(random(0,255)), (i+0.5)*FIELD_SIZE, (j+0.5)*FIELD_SIZE);
+        colorMode(RGB,255,255,255);
+      }
     }
   }
   
